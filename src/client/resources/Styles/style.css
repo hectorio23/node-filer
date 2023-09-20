@@ -1,8 +1,11 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@300;400&display=swap');
+
 * {
     margin:0;
     border: 0;
     padding: 0;
     outline: 0;
+    /* font-family: 'Roboto', sans-serif; */
 }
 
 /* VLARIABLES ZONE */
@@ -13,6 +16,7 @@
     --white: #AFAFAF;
     --white-font: #CCC;
     --grey-black: #4A4A4A; 
+    --bar-animation: left .5s linear;
 }
 
 /* MOBILE STYLE ZONE */
@@ -56,7 +60,7 @@
     height: calc(100vh - 2rem);
     background-color: var(--white);
     z-index: 20;
-    transition: left .8s ease-in-out;
+    transition: var(--bar-animation);
     margin: -4px;
 }
 
@@ -169,4 +173,47 @@ h1 {
 
 .submit-btn:hover {
     background-color: #0056b3;
+    overflow: auto;
+    box-sizing: border-box;
+}
+
+.container__items {
+    padding: 0 2rem;
+    max-height: 60vh;
+    overflow: auto;
+}
+
+.container__container {
+    margin:  0 0 2rem;
+    display: flex;
+    justify-content: space-between;
+    border-radius: .8rem;
+    background-color: #CECECE;
+    overflow: hidden;
+}
+
+.lateral__bar {
+    width: 6px;
+    height: auto;
+    background-color: var(--blue-violet);
+}
+
+.items__task {
+    padding: 7px 0 0 10%;
+    width: 60%;
+}
+
+.lateral__icon {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 60px;
+    height: 60px;
+
+}
+
+.fa-folder {
+    padding-top: 20px;
+    height: 100%;
+    font-size: 2rem;
 }
