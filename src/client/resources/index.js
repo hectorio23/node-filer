@@ -12,6 +12,6 @@ buttonActiveMenu.addEventListener('click', e => {
 }, false);
 
 mainBox.addEventListener('click', e => {
-    menuBar.style.left = "-40%";
+    menuBar.style.left = "calc(-40% - 5px)";
 }, false)
 
