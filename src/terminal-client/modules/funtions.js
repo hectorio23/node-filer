@@ -1,12 +1,18 @@
 "use strict";
 
-const { exec } = require('child_process');
-
+const foo = require('./commands');
 const userName = "root";
 const passwordUser = "root";
 let loginCurrentUser = false;
 
+function askQuestion(question, rl) {
+    return new Promise((resolve) => {
+        rl.question(question, resolve);
+    });
+}
+
 async function verifyIdentity(r1) {
+    console.log("Welcome to node-filer Terminal!")
     while (!loginCurrentUser) {
         const user = await askQuestion('Ingresa el nombre de usuario: ', r1);
         const passwd = await askQuestion('Ingresa la contraseña: ', r1)
@@ -16,35 +22,22 @@ async function verifyIdentity(r1) {
     }
 }
 
-function askQuestion(question, rl) {
-    return new Promise((resolve) => {
-        rl.question(question, resolve);
-    });
-}
-
 async function getUserInput(rl) {
+    let error = '';
 
     await verifyIdentity(rl);
     console.log(`Welcome ${ userName }!`)
 
     while (true) {
-        const response = await askQuestion('node-filer>: ', rl);
+        const response = await askQuestion(`node-filer${ error }>: `, rl);
 
-        // Elimina el tecto en consola
-        // if (response.trim() === "clear") console.clear();
-        // if (response.trim() === "pwd") console.log(__dirname);
+        if (error === '[X]') error = '';
+
         if (response == "") continue;
-        await exec(response, (error, stdout, stderr) => {
-            if (error) {
-              console.error(`Error al ejecutar el comando: ${error}`);
-              return;
-            }
-          
-            console.log(`Resultado del comando:\n${stdout}`);
-          });
+        error = foo.hotKeys(response.trim().toLowerCase());
     }
 }
 
 module.exports = {
     getUserInput,
-  };
+};
