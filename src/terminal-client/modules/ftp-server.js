@@ -1,28 +1,54 @@
+const path = require('node:path');
 const ftp = require('ftp-srv');
+
+const usuarios = {
+  "root": {
+    password: "root",
+    root: "root/" 
+  },
+  "test": {
+    password: "test",
+    root: "test/"  
+  },
+}
 
 // Configuración del servidor FTP
 const ftpServer = new ftp({
-  url: 'ftp://127.0.0.1:21', // Puedes cambiar la dirección y el puerto según tus necesidades
-  pasv_url: 'ftp://127.0.0.1:3000', // Puedes cambiar la dirección y el puerto para el modo pasivo
-  anonymous: true, // Permitir conexiones anónimas (puedes cambiar a false para requerir autenticación)
+  url: 'ftp://127.0.0.1:21',
+  pasv_url: 'ftp://127.0.0.1:3000',
+  anonymous: false, 
 });
 
-// Evento cuando se establece una conexión
-ftpServer.on('login', (data, resolve, reject) => {
-  // Permitir conexión anónima (puedes implementar autenticación aquí si anonymous es false)
-  resolve({ root: process.cwd() });
+ftpServer.on('login', ({ connection, username, password }, resolve, reject) => {
+  // Verificar si el usuario existe y la contraseña es correcta
+  if (usuarios[username] && usuarios[username].password === password) {
+    const rootDir = usuarios[username].root || process.cwd();
+    resolve({ root: path.resolve(rootDir) });
+    console.log(`Usuario ${username} autenticado correctamente.`);
+  } else {
+    reject(new Error('Autenticación fallida. Usuario o contraseña incorrectos.'));
+  }
 });
 
+// Evento cuando se carga un archivo
+ftpServer.on('STOR', (error, fileInfo) => {
+  if (error) {
+    console.error('Error al cargar el archivo:', error);
+  } else {
+    console.log(`Archivo cargado correctamente en ${fileInfo.path}.`);
+  }
+});
 // Evento cuando el servidor está listo
 ftpServer.on('listening', () => {
-  console.log(`Servidor FTP escuchando en ${ftpServer.options.url}`);
+  console.log(`Server listening on ${ftpServer.options.url}`);
 });
+
 
 // Iniciar el servidor FTP
 ftpServer.listen()
   .then(() => {
-    console.log('Servidor FTP iniciado correctamente.');
-  })
-  .catch((err) => {
-    console.error('Error al iniciar el servidor FTP:', err);
-  });
+    console.log('FTP Server started sucessfully!.');
+})
+.catch((err) => {
+  console.error('Error to start FTP Server:', err);
+});
