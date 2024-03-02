@@ -1,6 +1,10 @@
+// Import all the libraries needed
 const path = require('node:path');
 const ftp = require('ftp-srv');
 
+// For the moment this variable is here
+// but in the future this will be a function that
+// manages de users
 const usuarios = {
   "root": {
     password: "root",
@@ -12,13 +16,14 @@ const usuarios = {
   },
 }
 
-// Configuración del servidor FTP
+// FTP Settings
 const ftpServer = new ftp({
   url: 'ftp://127.0.0.1:21',
   pasv_url: 'ftp://127.0.0.1:3000',
   anonymous: false, 
 });
 
+// Event thats executes when the user is logging
 ftpServer.on('login', ({ connection, username, password }, resolve, reject) => {
   // Verificar si el usuario existe y la contraseña es correcta
   if (usuarios[username] && usuarios[username].password === password) {
@@ -30,7 +35,7 @@ ftpServer.on('login', ({ connection, username, password }, resolve, reject) => {
   }
 });
 
-// Evento cuando se carga un archivo
+// Executes when the user uploads files
 ftpServer.on('STOR', (error, fileInfo) => {
   if (error) {
     console.error('Error al cargar el archivo:', error);
@@ -38,13 +43,14 @@ ftpServer.on('STOR', (error, fileInfo) => {
     console.log(`Archivo cargado correctamente en ${fileInfo.path}.`);
   }
 });
-// Evento cuando el servidor está listo
+
+// Executes when the server is ready
 ftpServer.on('listening', () => {
   console.log(`Server listening on ${ftpServer.options.url}`);
 });
 
 
-// Iniciar el servidor FTP
+// Start point of FTP Server
 ftpServer.listen()
   .then(() => {
     console.log('FTP Server started sucessfully!.');
