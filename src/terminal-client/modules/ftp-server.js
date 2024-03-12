@@ -1,60 +1,57 @@
-// Import all the libraries needed
-const path = require('node:path');
-const ftp = require('ftp-srv');
+// Importa las bibliotecas necesarias
+const path = require('node:path'); // Importa el módulo 'path' de Node.js para manejar rutas de archivos
+const ftp = require('ftp-srv'); // Importa el módulo 'ftp-srv' para crear un servidor FTP
 
-// For the moment this variable is here
-// but in the future this will be a function that
-// manages de users
+// Definición de usuarios con sus credenciales y directorios raíz
 const usuarios = {
   "root": {
     password: "root",
-    root: "root/" 
+    root: "root/" // Directorio raíz para el usuario 'root'
   },
   "test": {
     password: "test",
-    root: "test/"  
+    root: "test/" // Directorio raíz para el usuario 'test'
   },
 }
 
-// FTP Settings
+// Configuración del servidor FTP
 const ftpServer = new ftp({
-  url: 'ftp://127.0.0.1:21',
-  pasv_url: 'ftp://127.0.0.1:3000',
-  anonymous: false, 
+  url: 'ftp://127.0.0.1:21', // URL del servidor FTP
+  pasv_url: 'ftp://127.0.0.1:3000', // URL para el modo pasivo del servidor FTP
+  anonymous: false, // Deshabilita el acceso anónimo al servidor FTP
 });
 
-// Event thats executes when the user is logging
+// Maneja el evento cuando un usuario inicia sesión
 ftpServer.on('login', ({ connection, username, password }, resolve, reject) => {
-  // Verificar si el usuario existe y la contraseña es correcta
+  // Verifica si el usuario existe y la contraseña es correcta
   if (usuarios[username] && usuarios[username].password === password) {
-    const rootDir = usuarios[username].root || process.cwd();
-    resolve({ root: path.resolve(rootDir) });
-    console.log(`Usuario ${username} autenticado correctamente.`);
+    const rootDir = usuarios[username].root || process.cwd(); // Obtiene el directorio raíz del usuario o el directorio de trabajo actual del proceso
+    resolve({ root: path.resolve(rootDir) }); // Resuelve la promesa con la ruta absoluta del directorio raíz del usuario
+    console.log(`Usuario ${username} autenticado correctamente.`); // Mensaje de registro indicando la autenticación exitosa
   } else {
-    reject(new Error('Autenticación fallida. Usuario o contraseña incorrectos.'));
+    reject(new Error('Autenticación fallida. Usuario o contraseña incorrectos.')); // Rechaza la promesa si la autenticación falla
   }
 });
 
-// Executes when the user uploads files
+// Maneja el evento cuando el usuario carga archivos
 ftpServer.on('STOR', (error, fileInfo) => {
   if (error) {
-    console.error('Error al cargar el archivo:', error);
+    console.error('Error al cargar el archivo:', error); // Muestra un mensaje de error si hay algún problema al cargar el archivo
   } else {
-    console.log(`Archivo cargado correctamente en ${fileInfo.path}.`);
+    console.log(`Archivo cargado correctamente en ${fileInfo.path}.`); // Mensaje de registro indicando que el archivo se cargó correctamente
   }
 });
 
-// Executes when the server is ready
+// Maneja el evento cuando el servidor está listo para aceptar conexiones
 ftpServer.on('listening', () => {
-  console.log(`Server listening on ${ftpServer.options.url}`);
+  console.log(`Server listening on ${ftpServer.options.url}`); // Mensaje de registro indicando que el servidor FTP está escuchando en una dirección específica
 });
 
-
-// Start point of FTP Server
+// Punto de inicio del servidor FTP
 ftpServer.listen()
   .then(() => {
-    console.log('FTP Server started sucessfully!.');
+    console.log('FTP Server started sucessfully!.'); // Mensaje de registro indicando que el servidor FTP se inició correctamente
 })
 .catch((err) => {
-  console.error('Error to start FTP Server:', err);
+    console.error('Error to start FTP Server:', err); // Muestra un mensaje de error si hay algún problema al iniciar el servidor FTP
 });
