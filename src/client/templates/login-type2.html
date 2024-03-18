@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../resources/Styles/login.css">
+    <title>Login</title>
+</head>
+<body>
+
+    <!-- FORM AREA-->
+    <div class="container">
+        <form class="form" action="" method="POST">
+            <!-- Form title -->
+            <h3 class="form__title">Login</h3>
+
+            <!-- Logo -->
+            <div class="form__profile">
+                <img src="../resources/user-default.webp" alt="Profile" width="100px">
+            </div>
+
+            <!-- Username's Fiels -->
+            <div class="container__form">
+                <label class="form__input" for="user_name">Email/Username</label>
+                <input class="form__input-username" type="text" name="" id="user_name" placeholder="username237574">
+            </div>
+
+            <!-- Password Field -->
+            <div class="container__form form__password">
+                <label class="form__input" for="password">Contraseña</label>
+                <input class="form__input-password" type="password" name="" id="password" placeholder="**************">
+
+            </div>
+
+            <div class="container__options">
+                <a href="">Crea una cuenta</a>
+                <a href="">Olvide la contraseña</a>
+            </div>
+
+            <input class="form__button-option" type="button" value="Login with Google">
+            <input class="form__button-option" type="button" value="Login with Facebook">
+            
+            <!-- Send to the server the response -->
+            <input class="form__button" type="submit" value="Enviar">
+        </form>
+    </div>
+</body>
+</html>
