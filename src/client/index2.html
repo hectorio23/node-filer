@@ -4,7 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="resources/Styles/index.css">
-
+    <link rel="stylesheet" href="resources/Styles/experimental.css">
+    
     <title>Node Filer</title>
 </head>
 <body>
@@ -48,14 +49,23 @@
         </ul>
 
         <!-- Información respecto a la cuenta -->
-        <div>
+        <div class="container__info">
             <button class="account__info">
-                Information about account
+                Info
             </button>
 
             <a class="report__link" href="https://github.com/hectorio23/node-filer/issues" target="_blank">Did you see any problem? Report the bug here!</a>
         </div>
+
     </header>
+
+    <section class="search__container">
+        <input type="text" class="search__input" placeholder="Search Files here...">
+
+        <div class="global__mode">
+            <div class="mode__inicator"></div>
+        </div>
+    </section>
 
 
     <!-- ZONA CORRESPONDIENTE EL CUERPO DE LA PAGINA -->
@@ -73,6 +83,23 @@
         </p> -->
 
     </section>
+
+    <div class="modal">
+        
+        <p class="modal__title">
+            <img class="icon" src="resources/icons/version.svg" width="20px"></img> 
+            Version
+        </p>
+
+        <div class="modal__content"><p style="text-align: center; font-size: 1.3rem;"> Node Filer 1.0.1.1 Beta </p></div>
+
+        <div class="modal__content--button">
+            <button class="modal__button">
+                Aceptar
+            </button>
+        </div>
+
+    </div>
     
 </body>
 </html>
