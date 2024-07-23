@@ -9,12 +9,15 @@
 
 }
 
+
 html {
     position: relative;
     box-sizing: border-box;
+    overflow: hidden;
     width: 100vw;
-    background-color: #EEE;
+    height: 50vh;
     user-select: none;
+    background-color: #CCC;
 }
 
 
@@ -84,13 +87,6 @@ html {
         font-size: 0.7rem;
     }
 
-    .content {
-        display: inline-block;
-        position: relative;
-        width: 40%;
-        box-sizing: content-box;
-    }
-
     .options {
         box-sizing: content-box;
         display: flex;
@@ -113,10 +109,6 @@ html {
     search__bar:focus {
         outline: 0;
         border: 0;
-    }
-
-    .search_text {
-
     }
 
     .container__info {
@@ -148,6 +140,7 @@ html {
         font-size: 1.2rem;
         color: #FFF;
         width: 60%;
+        max-width: 880px;
         margin: 0 10% 0 10%;
         padding: 5px 20px;
         border-radius: 4px;
@@ -169,7 +162,7 @@ html {
         height: 20px;
         margin-left: 20%;
         margin: auto;
-        background-color:aqua;
+        background-color: #EEE;
         border-radius: 8px;
         outline: 1px solid #AAA;
         box-sizing: border-box;
@@ -179,8 +172,66 @@ html {
         align-self: center;
         width: 50%;
         height: 20px;
-        background-color: yellow;
+        background-color: #999;
         border-radius: 8px;
 
     }
+
+    .content {
+        display: inline-block;
+        position: relative;
+        left: 20vw;
+        bottom: 100vh;
+        width: 80%;
+        height: calc(100vh - 4rem);
+        box-sizing: border-box;
+        background-color: #EEE;
+        border-radius: 1rem 0 0 0;
+    }
+
+    .content__hello {
+        box-sizing: border-box;
+        width: 100%;
+        padding: 1rem;
+        font-size: 1.5rem;
+        font-family:  'Roboto';
+        text-decoration: none;;
+    }
+
+    .content__files {
+        box-sizing: border-box;
+        /* background-color: #AAA; */
+        width: 85%;
+        margin: auto;
+        height: 88%;
+        padding: 4rem 2rem 2rem;
+    }
+
+    .table__head {
+        /* background-color: #DDD; */
+        width: 100%;
+        margin: auto;
+    }
+
+    .table__head--item {
+        width: calc(100% / 5);
+        border-right: 1px solid #000;
+    }
+
+    .table__head--item:last-child {
+        border-right: none !important;
+    }
+
+    .content__files--separator {
+        margin: 0 0 2rem;
+        border-top: 3px solid #000;
+    }
+
+    /* .footer {
+        display: absolute;
+        top: 0;
+        width: 80%;
+        height: 20px;
+        background-color: #0d6efd;
+    } */
 }
