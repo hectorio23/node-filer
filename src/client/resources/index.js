@@ -25,6 +25,9 @@ const readFile = pathFile => {
 const queryResources = () => {
     const headers = ["Name", "Path", "Modified", "Permissions", "Size", ];
 
+    // DATA EXAMPLE
+    // TODO: For the moment this data is temporal while the project
+    // is on development phase
     const userData = [
         ["Documents", "/", "16-07-24 :12:50", "rw-rw-r--", "3 MB"],
         ["Photos", "/", "29-07-24 :12:50", "rwxr-xr-x", "4 KB"]
@@ -66,13 +69,25 @@ const queryResources = () => {
     //  |                                                          |
     //  |   <hr class="content__files--separator"/>                |
     //  @----------------------------------------------------------@
-
+    
     for (let header of headers) {
         let element = document.createElement("TH");
         element.classList.add("table__head--item");
         element.textContent = header;
         tableHead.appendChild(element);
     }
+    
+    //  @----------------------------------------------------------@
+    //  |<table class="table">                                     |
+    //  |  <tr class="table_colum">                                |
+    //  |      <td class="table__item">Documents/</td>             |
+    //  |      <td class="table__item">./</td>                     |
+    //  |      <td class="table__item">16-07-24 :12:50</td>        |
+    //  |      <td class="table__item">664</td>                    |
+    //  |      <td class="table__item">3 MB</td>                   |
+    //  |  </tr>                                                   |
+    //  |</table>                                                  |
+    //  @----------------------------------------------------------@
 
     // Adds the resources to one table
     for (let resourceData of userData) {
@@ -94,16 +109,6 @@ const queryResources = () => {
         tables.appendChild(table);
 
     }
-
-    // <table class="table">
-    //     <tr class="table_colum">
-    //         <td class="table__item">Documents/</td>
-    //         <td class="table__item">./</td>
-    //         <td class="table__item">16-07-24 :12:50</td>
-    //         <td class="table__item">664</td>
-    //         <td class="table__item">3 MB</td>
-    //     </tr>
-    // </table>
 
     content.appendChild(tableHead);
     content.appendChild(separator);
