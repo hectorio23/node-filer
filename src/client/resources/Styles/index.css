@@ -219,18 +219,41 @@ html {
         margin: auto;
     }
 
-    .table__head--item {
+    .table__item, .table__head--item {
         width: calc(100% / 5);
         border-right: 1px solid var(--black);
+        text-align: center;
     }
 
     .table__head--item:last-child {
         border-right: none;
     }
 
+    .table {
+        width: 100%;
+        margin: auto;
+        /* border: 1px solid var(--black); */
+    }
+
+    .table__item {
+        border-right: none;
+
+    }
+
+
+    .table_column:nth-child(odd) {
+        background-color: var(--main-color);
+    }
+
     .content__files--separator {
-        margin: 0 0 2rem;
+        margin: 0 0 .5rem;
         border-top: 1px solid var(--black);
+    }
+
+    .advice {
+        font-size: 1.6rem;
+        text-align: center;
+
     }
 
     /* .footer {
@@ -240,4 +263,6 @@ html {
         height: 20px;
         background-color: #0d6efd;
     } */
+
+
 }
