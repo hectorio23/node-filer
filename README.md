@@ -1,9 +1,7 @@
 ## Este proyecto esta en desarrollo
 
-El proyecto por el momento esta en fase de desarrollo my temprana
-Por lo que se pueden encontrar archivos vacios y otros incompletos
-(pero funcionales).
-No se tiene una fecha estimada de cuando terminra el Proxy-server
+El proyecto por el momento esta en fase de desarrollo.
+
 
 `This Project is developing on a Linux System, for that you can notice and see
 some commands that are not allowed on Windows System`
