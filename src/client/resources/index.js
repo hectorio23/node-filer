@@ -2,19 +2,6 @@
 // GitHub: https://github.com/hectorio23
 "strict mode";
  
-
-// const buttonActiveMenu = document.querySelector('.menu__section');
-// const menuBar = document.getElementById('option-bar');
-// const mainBox = document.querySelector('.main');
-
-// buttonActiveMenu.addEventListener('click', e => {
-//     menuBar.style.left = "0";
-// }, false);
-
-// mainBox.addEventListener('click', e => {
-//     menuBar.style.left = "calc(-40% - 5px)";
-// }, false)
-
 const mainContent = document.querySelector(".content__files");
 
 const readFile = pathFile => {

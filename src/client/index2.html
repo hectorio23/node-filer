@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="resources/Styles/index.css">
     <link rel="stylesheet" href="resources/Styles/experimental.css">
-    
+
     <title>Node Filer</title>
 </head>
 <body>
@@ -22,7 +22,7 @@
         <ul class="header__options">
 
             <li class="header__options--items">
-                <img class="icon" src="resources/icons/file.svg" width="20px"></img>
+        <img class="icon" src="resources/icons/file.svg" width="20px"></img>
                 Files and folders
             </li>
 
@@ -63,7 +63,7 @@
     <section class="search__container">
         <input type="text" class="search__input" placeholder="Search Files here...">
 
-        <div class="global__mode">
+        <div class="global__mode  global__mode-toggle2">
             <div class="mode__inicator"></div>
         </div>
     </section>
@@ -74,15 +74,7 @@
         <div class="content__hello">
                 <h1>¡Good Morning ADAN!</h1>
         </div>
-
-        <div class="content__files">
-
-            
-
-
-
-
-        </div>
+        <div class="content__files"></div>
 
     </section>
 
@@ -106,7 +98,14 @@
         <p>Did you have a question, suggest, or an idea, Tell me here: <a href="https://github.com/hectorio23">https://github.com/hectorio23/<a></p>
     </footer> -->
 
-        <script type="text/javascript" src="./resources/index.js"></script>
+    <div class="modal__context-menu">
+        <p>Editar nombre</p>
+        <p>Cambar permisos</p>
+        <p>Eiminar</p>
+    </div>
+
+    <script type="text/javascript" src="./resources/index.js"></script>
+    <script type="text/javascript" src="./resources/events.js"></script>
 
     
 </body>

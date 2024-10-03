@@ -176,6 +176,17 @@ html {
         box-sizing: border-box;
     }
 
+    .global__mode-toggle1 {
+        display: flex;
+        justify-content: flex-end;
+    }
+
+    .global__mode-toggle2 {
+        display: flex;
+        justify-content: flex-start;
+    }
+
+
     .mode__inicator {
         align-self: center;
         width: 50%;
@@ -223,6 +234,7 @@ html {
         width: calc(100% / 5);
         border-right: 1px solid var(--black);
         text-align: center;
+        padding: 0.8rem 0;
     }
 
     .table__head--item:last-child {
@@ -254,6 +266,16 @@ html {
         font-size: 1.6rem;
         text-align: center;
 
+    }
+
+    .modal__context-menu {
+        display: none;
+        position: absolute;
+        background-color: #f0f0f0;
+        box-shadow: 0px 0px 10px rgba(0,0,0,0.2);
+        border-radius: 5px;
+        z-index: 1000;
+        padding: 1rem;
     }
 
     /* .footer {
