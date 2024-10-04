@@ -278,6 +278,10 @@ html {
         padding: 1rem;
     }
 
+    .toggle__color {
+        background-color: #AAA !important;
+    }
+
     /* .footer {
         display: absolute;
         top: 0;

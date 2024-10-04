@@ -77,9 +77,10 @@ const queryResources = () => {
     //  @----------------------------------------------------------@
 
     // Adds the resources to one table
+    let table = document.createElement("TABLE");
+    table.classList.add("table");
+
     for (let resourceData of userData) {
-        let table = document.createElement("TABLE");
-        table.classList.add("table");
 
         let rowTable = document.createElement("TR");
         rowTable.classList.add("table_column");
@@ -94,7 +95,6 @@ const queryResources = () => {
 
         table.appendChild(rowTable);
         tables.appendChild(table);
-
     }
 
     content.appendChild(tableHead);
