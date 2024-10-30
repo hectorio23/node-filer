@@ -1,23 +1,40 @@
 "use strict";
 
-let indicator = 0;
+let indicator = false;
+
+
+/////////////////////////////////////////////////////////
+/////////// DOM ELEMENTS DECLARATION HERE! //////////////
+/////////////////////////////////////////////////////////
 
 const modeSelector = document.querySelector('.global__mode');
+const modeIndicator = document.querySelector('.mode__indicator');
 const tableItem = document.querySelectorAll(".table__item");
 const tableRow = document.getElementsByTagName("TR");
 const HTML = document.getElementsByTagName("HTML");
 const contextMenu = document.querySelector(".modal__context-menu");
 
+const changeIndicatorState = (element, oldToken, newToken ) => {
+    if (element.target == modeSelector)  {
+        element.target.classList.replace(oldToken, newToken);
+        console.log("Hola");
+        return undefined;
+    }
+
+    element.target.parentElement.classList.replace(oldToken, newToken);
+}
+
+
+///////////////////////////////////////////////////////
+/////////////////////// EVENTS ZONE ///////////////////
+//////////////////////////////////////////////////////
 
 modeSelector.addEventListener("click", e => {
-    if (indicator == 0) {
-        e.target.classList.replace("global__mode-toggle2", "global__mode-toggle1"); 
-        indicator = 1;
-    }
-    else {
-        e.target.classList.replace("global__mode-toggle1", "global__mode-toggle2"); 
-        indicator = 0;
-    }
+    console.log(e);
+    if (!indicator) changeIndicatorState(e, "global__mode-toggle2", "global__mode-toggle1");
+    else changeIndicatorState(e, "global__mode-toggle1", "global__mode-toggle2")
+
+    indicator = !indicator;
 }, true);
 
 
