@@ -21,7 +21,6 @@
         grid-template-rows: 1fr;
         width: 100vw;
         height: 50px;
-
     }
 
    .header__nav-content1 {
@@ -40,11 +39,15 @@
     }
 
     [alt="User Profile"] {
-        width: 40px;
+        width: 35px;
         background-color: #FFF;
         border-radius: 50%;
         padding: 2px;
-        margin-right: 10px;
+        margin-right: 15px;
+    }
+
+    [alt="User Profile"]:hover {
+        cursor: pointer;
     }
 
     [alt="Notifications"] {
@@ -52,6 +55,10 @@
         background-color: #FFF;
         border-radius: 50%;
         margin-left: 30px;
+    }
+
+    [alt="Notifications"]:hover {
+        cursor: pointer;
     }
 
     #notificationsCenter {
@@ -92,10 +99,111 @@
     }
 
     .main__content {
-        background-color: #EEE;
+        box-sizing: border-box;
+        background-color: #48e;
         width: 99vw;
         height: calc(99vh - 50px);
         margin: auto;
-        border-radius: 1rem 1rem .5rem .5rem;
     }
+
+    .aside__content {
+        display: inline-block;
+        position: absolute;
+        box-sizing: border-box;
+        width: 15%;
+        height: calc(99vh - 50px);
+        background-color: #CCC;
+        border-radius: 1rem 0 0 .5rem;
+        background: rgba(255, 255, 255, .5);
+        -webkit-backdrop-filter: blur(5px);
+        backdrop-filter: blur(5px);
+        border: 1.5px solid rgba(209, 213, 219, 0.3);
+    }
+
+    .logo {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        width: 100%;
+        height: 30%;
+    }
+
+    .logo__custom {
+        width: 200px;
+        text-shadow: 10px 5px;
+       
+    }
+
+    .aside__options {
+        padding-top: 30px;
+        width: 100%;
+        height: 30%;
+        list-style: none;
+        outline: 1px solid #CCC;
+    }
+
+    .option__item {
+        margin: auto;
+        padding: 5px 10px;
+        margin-bottom: 5px;
+        width: 90%;
+        border-radius: .5rem;
+    }
+
+    .option__item:hover {
+        cursor: pointer;
+        background-color: #EEE;
+        transition: background-color 0.3s ease-out; 
+    }
+
+    .main {
+        box-sizing: border-box;
+        width: calc(100% - 15.2%);
+        height: 100%;
+        margin-left: 15.2%;
+        background-color: #EEE;
+        border-radius: 0 1rem .5rem 0;
+        padding: 10px
+    }
+
+    .statics__content {
+        width: 98%;
+        height: 150px;
+        border: 2px dashed #CCC;
+        margin: auto;
+    }
+
+    .breadcrump__menu {
+        display: grid;
+        box-sizing: border-box;
+        grid-template-rows: 1fr;
+        grid-template-columns: repeat(12, 1fr);
+        width: 98%;
+        height: 50px;
+        border: 2px dashed #CCC;
+        margin: auto;
+        margin-top: 20px;
+    }
+
+    .create__option {
+        display: block;
+        color: #FFF;
+        background-color: darkorchid;
+        grid-column: 12 / 13;
+        width: 7rem;
+        height: 2.5rem;
+        padding: 1px;
+        border-radius: 0.7rem;
+        align-self: center;
+    }
+
+    .content {
+        width: 98%;
+        height: calc(100% - 50px - 40px - 150px - 4px - 10px);
+        border: 2px dashed #CCC;
+        margin: auto;
+        margin-top: 20px;
+
+    }
+
 }
