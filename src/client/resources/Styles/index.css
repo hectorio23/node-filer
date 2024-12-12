@@ -202,6 +202,7 @@
         border: 2px dashed #CCC;
         margin: auto;
         margin-top: 20px;
+        user-select: none;
     }
 
     .breadcrump {
@@ -256,7 +257,52 @@
         border: 2px dashed #CCC;
         margin: auto;
         margin-top: 20px;
+        padding-top: 2.2rem;
 
+    }
+
+    .table__content {
+        width: 100%;
+    }
+
+    .table__head {
+        display: grid;
+        width: 100%;
+        grid-template-rows: 1fr;
+        grid-template-columns: repeat(12, 1fr);
+        margin-bottom: .5rem;
+        user-select: none;
+    }
+
+    .title__table {
+        border-bottom: 1px solid #000;
+        padding-bottom: 10px;
+        margin-bottom: 1.5rem;
+    }
+
+    .table__head:not(.title__table) {
+        box-sizing:border-box;
+        border-radius: .3rem;
+        padding: 5px 10px;
+        align-self: center;
+        background-color: #CCC;
+    }
+
+    .name__head {
+        grid-column: 1 / 7;
+    }
+
+    .document__weight {
+        grid-column: 8 / 9;
+    }
+
+    .document__info {
+        grid-column: 10 / 12;
+    }
+
+    td:not(.name__head) {
+        text-align: center;
+        user-select: none;
     }
 
     /* JAVASCRIPT CLASSESS */

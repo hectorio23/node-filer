@@ -1,5 +1,6 @@
 "use strict";
 
+const posibleValues = ["0", "1", "2", "3", "4", "5", "6", "7", "8", "9"];
 
 let rootContent = {
     "All Documents": [],
@@ -14,28 +15,53 @@ let rootContent = {
     "Favorite Files": []
 };
 
-// Loop to print keys
-
-
-
 const getElements = (arrayElement) => {
     let temp = [];
 
     for (let key in arrayElement) {
         if (arrayElement.hasOwnProperty(key)) {
             if (/\/$/.test(arrayElement[key])) {
-                // Si es un directorio, agregamos solo el nombre del directorio
-                temp.push(key); // El nombre del directorio
+
+                if (!posibleValues.includes(key)) temp.push(key); 
+                else temp.push(arrayElement[key]);
+
             } else {
                 // Si es un archivo, agregamos solo el nombre del archivo
                 temp.push(arrayElement[key]); // El nombre del archivo
             }
         }
     }
-
     return temp;
 }
 
+const updateTable = (path) => {
+    
+}
+
+const updateBreadcrumps = (reference, breadcrumpContainer) => {
+    // let data = breadcrumpContainer.children;
+    breadcrumpContainer.innerText = "";
+    // for (let temporalElement of data) {
+    //     console.log("eemento eliminado: " + temporalElement.innerHTML )
+    //     breadcrumpContainer.removeChild(temporalElement);
+    //
+    // }
+
+    let newElements = document.createDocumentFragment();
+    let breadcrumpSpecifies = document.createElement("P")
+    breadcrumpSpecifies.textContent = `${ reference.textContent }`;
+    console.log(reference.textContent)
+
+     let breadcrumpSeparator = document.createElement("P")
+    breadcrumpSeparator.textContent = ">";
+
+    newElements.appendChild(breadcrumpSpecifies);
+    newElements.appendChild(breadcrumpSeparator);
+
+    breadcrumpContainer.appendChild(newElements);
+
+
+} 
 
 // Función para recopilar todos los archivos y carpetas
 function updateFilesAndDocuments(root) {
@@ -77,10 +103,10 @@ function removeFromFavorites(root, file) {
 }
 
 // Ejemplo de uso
-updateFilesAndDocuments(rootContent);
-addToRecent(rootContent, "resume.pdf");
-addToRecent(rootContent, "photo1.jpg");
-addToFavorites(rootContent, "photo1.jpg");
+// updateFilesAndDocuments(rootContent);
+// addToRecent(rootContent, "resume.pdf");
+// addToRecent(rootContent, "photo1.jpg");
+// addToFavorites(rootContent, "photo1.jpg");
 
 
 addEventListener("DOMContentLoaded", () => {
@@ -104,8 +130,7 @@ addEventListener("DOMContentLoaded", () => {
 
 
     const optionsItems = document.querySelectorAll(".option__item");
-    // const optionsItems = docuement.querySelectorAll(".option__item");
-    const breadcrumpItems = document.querySelector(".breadcrump");
+    const breadcrumpContainer = document.querySelector(".breadcrump");
     
     changeState(optionsItems[0] , optionsItems)
 
@@ -113,9 +138,10 @@ for (let elements of optionsItems) {
     elements.addEventListener("click", (item) => {
         changeState(item.target, optionsItems);
         let data;
-        // breadcrumpUpdate(item.target);
         if (item.target.textContent != "All Files")  {  data = getElements(rootContent[`${ item.target.textContent }`]); }
         else { data = rootContent["All Documents"]; }
+
+        updateBreadcrumps(item.target, breadcrumpContainer)
 
         console.log(data);
     })
