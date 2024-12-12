@@ -34,8 +34,45 @@ const getElements = (arrayElement) => {
     return temp;
 }
 
-const updateTable = (path) => {
-    
+
+const updateTable = (path, elementNode) => {
+
+    if (!rootContent[path]) {
+        elementNode.innerHTML = `
+            <div class="advice__content">
+                <img src="resources/Logos/FileNotFound.webp" width="200px">
+                <h3>Nothing here!</h3>
+                <p>Sorry, You don't have files yet!</p>
+            </div>`; 
+        return;
+    }
+
+    let temporalContent = `
+        <table class="table__content">
+            <tr class="table__head title__table">
+                <th class="name__head">Name</th>
+                <th class="document__weight">Weight</th>
+                <th class="document__permission">Permission</th>
+                <th class="document__info">Last Modification</th>
+                <th class="document__status">State</th>
+            </tr>
+        `;
+
+    for (let item of getElements(rootContent[`${ path }`])) {
+        temporalContent += `
+            <tr class="table__head">
+                <td class="name__head">${ item }</td>
+                <td class="document__weight">3.4 MB</td>
+                <td class="document__permission">wrx-r----</td>
+                <td class="document__info">Yestarday</td>
+                <td class="document__status">share</td>
+            </tr>`;
+
+    }
+
+    temporalContent += '</table>';
+
+    elementNode.innerHTML = temporalContent;
 }
 
 const updateBreadcrumps = (reference, breadcrumpContainer) => {
@@ -103,10 +140,10 @@ function removeFromFavorites(root, file) {
 }
 
 // Ejemplo de uso
-// updateFilesAndDocuments(rootContent);
-// addToRecent(rootContent, "resume.pdf");
-// addToRecent(rootContent, "photo1.jpg");
-// addToFavorites(rootContent, "photo1.jpg");
+updateFilesAndDocuments(rootContent);
+addToRecent(rootContent, "resume.pdf");
+addToRecent(rootContent, "photo1.jpg");
+addToFavorites(rootContent, "photo1.jpg");
 
 
 addEventListener("DOMContentLoaded", () => {
@@ -131,8 +168,10 @@ addEventListener("DOMContentLoaded", () => {
 
     const optionsItems = document.querySelectorAll(".option__item");
     const breadcrumpContainer = document.querySelector(".breadcrump");
+    const tableContent = document.querySelector(".content");
     
-    changeState(optionsItems[0] , optionsItems)
+    changeState(optionsItems[0] , optionsItems);
+    updateTable("All Documents", tableContent);
 
 for (let elements of optionsItems) {
     elements.addEventListener("click", (item) => {
@@ -141,9 +180,9 @@ for (let elements of optionsItems) {
         if (item.target.textContent != "All Files")  {  data = getElements(rootContent[`${ item.target.textContent }`]); }
         else { data = rootContent["All Documents"]; }
 
-        updateBreadcrumps(item.target, breadcrumpContainer)
+        updateBreadcrumps(item.target, breadcrumpContainer);
+        updateTable(item.target.textContent, tableContent);
 
-        console.log(data);
     })
 }
 

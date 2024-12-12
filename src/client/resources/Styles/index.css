@@ -163,7 +163,7 @@
         margin-left: 15.2%;
         background-color: #EEE;
         border-radius: 0 1rem .5rem 0;
-        padding: 10px
+        padding: 10px;
     }
 
     .statics__content {
@@ -190,6 +190,19 @@
         width: 120px;
         align-self: center;
         user-select: none;
+    }
+
+    .content__info1 {
+        padding-left: 30px;
+        text-align: left;
+        align-self: center;
+        grid-column: 3 / 5;
+    }
+
+    .content__info2 {
+        text-align: left;
+        align-self: center;
+        grid-column: 5 / 7;
     }
 
     .breadcrump__menu {
@@ -252,12 +265,16 @@
     }
 
     .content {
+        box-sizing: border-box;
+        position: relative;
         width: 98%;
         height: calc(100% - 50px - 40px - 150px - 4px - 10px);
         border: 2px dashed #CCC;
         margin: auto;
         margin-top: 20px;
-        padding-top: 2.2rem;
+        padding-top: .5rem;
+        overflow: none;
+        z-index: 1000;
 
     }
 
@@ -310,4 +327,18 @@
         background-color: #FFF ;
     }
 
+    .advice__content {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex-direction: column;
+        position: absolute;
+        top: 0;
+        right: 0;
+        left: 0;
+        bottom: 0;
+        margin: auto;
+        width: 400px;
+        height: 400px;
+    }
 }
