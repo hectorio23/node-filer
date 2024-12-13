@@ -1,53 +1,86 @@
 "use strict";
 
-const posibleValues = ["0", "1", "2", "3", "4", "5", "6", "7", "8", "9"];
+// Importar las clases y funciones
+import { Document } from "./documents.js";
+import { Folder } from "./folders.js";
+import {
+    getDocumentByHash,
+    getFoldersInFolder,
+    getAllContentsFromAllFolders,
+    getContentsByFolderHash,
+} from "./functions.js";
 
-let rootContent = {
-    "All Documents": [],
-    "Files": [],
-    "Folders": {
-        "Documents/": ["resume.pdf", "project.docx"],
-        "Images/": ["photo1.jpg", "photo2.png"],
-        "Videos/": ["video1.mp4"],
-        "Archives/": ["old.zip", "backup.tar.gz"]
-    },
-    "Recent": [],
-    "Favorite Files": []
+// Crear las carpetas principales
+const rootFolders = {
+    allDocuments: new Folder("All Documents"),
+    files: new Folder("Files"),
+    recent: new Folder("Recent"),
+    favoriteFiles: new Folder("Favorite Files"),
+    folders: new Folder("Folders"),
 };
 
-const getElements = (arrayElement) => {
-    let temp = [];
+// Crear subcarpetas dentro de "Folders"
+const documentsFolder = new Folder("Documents");
+const imagesFolder = new Folder("Images");
+const videosFolder = new Folder("Videos");
+const archivesFolder = new Folder("Archives");
 
-    for (let key in arrayElement) {
-        if (arrayElement.hasOwnProperty(key)) {
-            if (/\/$/.test(arrayElement[key])) {
+rootFolders.folders.addItem(documentsFolder);
+rootFolders.folders.addItem(imagesFolder);
+rootFolders.folders.addItem(videosFolder);
+rootFolders.folders.addItem(archivesFolder);
 
-                if (!posibleValues.includes(key)) temp.push(key); 
-                else temp.push(arrayElement[key]);
+// Agregar documentos a las carpetas
+documentsFolder.addItem(
+    new Document("resume.pdf", 3.4, "rw-r--r--", new Date(), "active", "user")
+);
+documentsFolder.addItem(
+    new Document("project.docx", 2.1, "rw-r--r--", new Date(), "active", "user")
+);
 
-            } else {
-                // Si es un archivo, agregamos solo el nombre del archivo
-                temp.push(arrayElement[key]); // El nombre del archivo
-            }
-        }
-    }
-    return temp;
-}
+imagesFolder.addItem(
+    new Document("photo1.jpg", 5.2, "r--r--r--", new Date(), "archived", "user")
+);
+imagesFolder.addItem(
+    new Document("photo2.png", 3.7, "r--r--r--", new Date(), "archived", "user")
+);
 
+videosFolder.addItem(
+    new Document("video1.mp4", 15.0, "r--r--r--", new Date(), "active", "user")
+);
 
-const updateTable = (path, elementNode) => {
+archivesFolder.addItem(
+    new Document("old.zip", 8.4, "rw-r--r--", new Date(), "archived", "user")
+);
+archivesFolder.addItem(
+    new Document(
+        "backup.tar.gz",
+        12.5,
+        "rw-r--r--",
+        new Date(),
+        "archived",
+        "user"
+    )
+);
 
-    if (!rootContent[path]) {
+// Función para actualizar la tabla en el DOM
+const updateTable = (folderHash, elementNode) => {
+
+    const folder = getFoldersInFolder(folderHash, rootFolders.allDocuments)[0];
+    
+    console.log(folder)
+
+    if (!folder) {
         elementNode.innerHTML = `
             <div class="advice__content">
                 <img src="resources/Logos/FileNotFound.webp" width="200px">
                 <h3>Nothing here!</h3>
                 <p>Sorry, You don't have files yet!</p>
-            </div>`; 
+            </div>`;
         return;
     }
 
-    let temporalContent = `
+    let tableContent = `
         <table class="table__content">
             <tr class="table__head title__table">
                 <th class="name__head">Name</th>
@@ -55,136 +88,66 @@ const updateTable = (path, elementNode) => {
                 <th class="document__permission">Permission</th>
                 <th class="document__info">Last Modification</th>
                 <th class="document__status">State</th>
-            </tr>
-        `;
-
-    for (let item of getElements(rootContent[`${ path }`])) {
-        temporalContent += `
-            <tr class="table__head">
-                <td class="name__head">${ item }</td>
-                <td class="document__weight">3.4 MB</td>
-                <td class="document__permission">wrx-r----</td>
-                <td class="document__info">Yestarday</td>
-                <td class="document__status">share</td>
             </tr>`;
 
+    for (let item of getContentsByFolderHash(
+        folderHash,
+        rootFolders.allDocuments
+    )) {
+        tableContent += `
+            <tr class="table__head">
+                <td class="name__head">${item.name}</td>
+                <td class="document__weight">${item.weight || "N/A"} MB</td>
+                <td class="document__permission">${
+                    item.permission || "N/A"
+                }</td>
+                <td class="document__info">${
+                    item.lastModification || "N/A"
+                }</td>
+                <td class="document__status">${item.state || "N/A"}</td>
+            </tr>`;
     }
 
-    temporalContent += '</table>';
+    tableContent += "</table>";
+    elementNode.innerHTML = tableContent;
+};
 
-    elementNode.innerHTML = temporalContent;
-}
+// Función para actualizar el breadcrumbs en el DOM
+const updateBreadcrumbs = (folderHash, breadcrumbContainer) => {
+    breadcrumbContainer.innerHTML = ""; // Limpiar el contenedor
 
-const updateBreadcrumps = (reference, breadcrumpContainer) => {
-    // let data = breadcrumpContainer.children;
-    breadcrumpContainer.innerText = "";
-    // for (let temporalElement of data) {
-    //     console.log("eemento eliminado: " + temporalElement.innerHTML )
-    //     breadcrumpContainer.removeChild(temporalElement);
-    //
-    // }
+    const folder = getFoldersInFolder(folderHash, rootFolders.allDocuments)[0];
 
-    let newElements = document.createDocumentFragment();
-    let breadcrumpSpecifies = document.createElement("P")
-    breadcrumpSpecifies.textContent = `${ reference.textContent }`;
-    console.log(reference.textContent)
+    if (folder) {
+        const breadcrumbItem = document.createElement("p");
+        breadcrumbItem.textContent = folder.name;
 
-     let breadcrumpSeparator = document.createElement("P")
-    breadcrumpSeparator.textContent = ">";
-
-    newElements.appendChild(breadcrumpSpecifies);
-    newElements.appendChild(breadcrumpSeparator);
-
-    breadcrumpContainer.appendChild(newElements);
-
-
-} 
-
-// Función para recopilar todos los archivos y carpetas
-function updateFilesAndDocuments(root) {
-    let allFiles = [];
-    let allDocuments = [];
-
-    for (let folder in root["Folders"]) {
-        const folderContent = root["Folders"][folder];
-        allFiles = allFiles.concat(folderContent);
-        allDocuments.push(folder); // Incluir la carpeta
-        allDocuments = allDocuments.concat(folderContent); // Incluir su contenido
+        breadcrumbContainer.appendChild(breadcrumbItem);
     }
+};
 
-    root["Files"] = allFiles.filter(file => !/\/$/.test(file)); // Solo archivos
-    root["All Documents"] = allDocuments; // Todo (archivos y carpetas)
-}
-
-// Función para actualizar "Recent" usando una pila de 10 elementos
-function addToRecent(root, file) {
-    if (root["Recent"].includes(file)) {
-        root["Recent"] = root["Recent"].filter(item => item !== file);
-    }
-    root["Recent"].push(file);
-    if (root["Recent"].length > 10) {
-        root["Recent"].shift(); // Eliminar el más antiguo
-    }
-}
-
-// Función para marcar un archivo como favorito
-function addToFavorites(root, file) {
-    if (!root["Favorite Files"].includes(file)) {
-        root["Favorite Files"].push(file);
-    }
-}
-
-// Función para quitar un archivo de favoritos
-function removeFromFavorites(root, file) {
-    root["Favorite Files"] = root["Favorite Files"].filter(item => item !== file);
-}
-
-// Ejemplo de uso
-updateFilesAndDocuments(rootContent);
-addToRecent(rootContent, "resume.pdf");
-addToRecent(rootContent, "photo1.jpg");
-addToFavorites(rootContent, "photo1.jpg");
-
-
-addEventListener("DOMContentLoaded", () => {
-
-    ////////////////////////////////////////
-    ////////////// FUNCTIONS ///////////////
-    ///////////////////////////////////////
-    const changeState = (newElement, arrayElements) => {
-        for (let currentElement of arrayElements) {
-            currentElement.classList.remove("element__selected");
-        }
-        newElement.classList.add("element__selected");
-    }
-
-    // const breadcrumpUpdate = (element) => {
-    //     
-    // }
-    ///////////////////////////////////////77
-    ///////////// EVENTS /////////////////version
-    ////////////////////////////////////
-
-
+// Inicialización de eventos en el DOM
+document.addEventListener("DOMContentLoaded", () => {
     const optionsItems = document.querySelectorAll(".option__item");
-    const breadcrumpContainer = document.querySelector(".breadcrump");
+    const breadcrumbContainer = document.querySelector(".breadcrump");
     const tableContent = document.querySelector(".content");
-    
-    changeState(optionsItems[0] , optionsItems);
-    updateTable("All Documents", tableContent);
 
-for (let elements of optionsItems) {
-    elements.addEventListener("click", (item) => {
-        changeState(item.target, optionsItems);
-        let data;
-        if (item.target.textContent != "All Files")  {  data = getElements(rootContent[`${ item.target.textContent }`]); }
-        else { data = rootContent["All Documents"]; }
+    // Seleccionar el primer elemento por defecto
+    optionsItems[0].classList.add("element__selected");
+    updateTable(rootFolders.allDocuments.hash, tableContent);
 
-        updateBreadcrumps(item.target, breadcrumpContainer);
-        updateTable(item.target.textContent, tableContent);
+    // Añadir eventos a las opciones
+    optionsItems.forEach((option) => {
+        option.addEventListener("click", () => {
+            console.log("Hola");
+            optionsItems.forEach((item) =>
+                item.classList.remove("element__selected")
+            );
+            option.classList.add("element__selected");
 
-    })
-}
-
+            const folderHash = option.getAttribute("data-hash");
+            updateBreadcrumbs(folderHash, breadcrumbContainer);
+            updateTable(folderHash, tableContent);
+        });
+    });
 });
-
