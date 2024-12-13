@@ -1,9 +1,9 @@
 
 class Folder {
     constructor(name) {
-        this.hash = crypto.randomUUID(); // Identificador único
+        this.hash = crypto.randomUUID(); 
         this.name = name;
-        this.contents = []; // Contendrá objetos `Folder` o `Document`
+        this.contents = [];
         this.type = "folder";
     }
 
@@ -12,7 +12,6 @@ class Folder {
     }
 
     addItem(item) {
-        console.log(item)
         if (item.type == "folder" || item.type == "document") {
             this.contents.push(item);
         } else {

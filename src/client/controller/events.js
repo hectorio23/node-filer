@@ -12,11 +12,11 @@ import {
 
 // Crear las carpetas principales
 const rootFolders = {
-    allDocuments: new Folder("All Documents"),
-    files: new Folder("Files"),
-    recent: new Folder("Recent"),
-    favoriteFiles: new Folder("Favorite Files"),
-    folders: new Folder("Folders"),
+    "All Documents": new Folder("All Documents"),
+    "Files": new Folder("Files"),
+    "Folders": new Folder("Folders"),
+    "Recent": new Folder("Recent"),
+    "Favorite Files": new Folder("Favorite Files"),
 };
 
 // Crear subcarpetas dentro de "Folders"
@@ -25,10 +25,10 @@ const imagesFolder = new Folder("Images");
 const videosFolder = new Folder("Videos");
 const archivesFolder = new Folder("Archives");
 
-rootFolders.folders.addItem(documentsFolder);
-rootFolders.folders.addItem(imagesFolder);
-rootFolders.folders.addItem(videosFolder);
-rootFolders.folders.addItem(archivesFolder);
+rootFolders.Folders.addItem(documentsFolder);
+rootFolders.Folders.addItem(imagesFolder);
+rootFolders.Folders.addItem(videosFolder);
+rootFolders.Folders.addItem(archivesFolder);
 
 // Agregar documentos a las carpetas
 documentsFolder.addItem(
@@ -64,11 +64,12 @@ archivesFolder.addItem(
 );
 
 // Función para actualizar la tabla en el DOM
-const updateTable = (folderHash, elementNode) => {
+const updateTable = (folderHash, elementNode, item) => {
+  
+        console.log( rootFolders[`${ item }`])
+    const folder = getFoldersInFolder(folderHash, rootFolders[`${ item }`])[0];
+    console.log(folder + " imprimiendo el valor de folder") 
 
-    const folder = getFoldersInFolder(folderHash, rootFolders.allDocuments)[0];
-    
-    console.log(folder)
 
     if (!folder) {
         elementNode.innerHTML = `
@@ -92,7 +93,7 @@ const updateTable = (folderHash, elementNode) => {
 
     for (let item of getContentsByFolderHash(
         folderHash,
-        rootFolders.allDocuments
+        rootFolders["All Documents"]
     )) {
         tableContent += `
             <tr class="table__head">
@@ -113,40 +114,55 @@ const updateTable = (folderHash, elementNode) => {
 };
 
 // Función para actualizar el breadcrumbs en el DOM
-const updateBreadcrumbs = (folderHash, breadcrumbContainer) => {
+const updateBreadcrumbs = (folderHash, breadcrumbContainer, item, containerTable) => {
     breadcrumbContainer.innerHTML = ""; // Limpiar el contenedor
+    // const folder = getFoldersInFolder(folderHash, rootFolders[`${ item }`])[0];
+    
+    const fragment = document.createDocumentFragment();
+    const breadcrumbItem = document.createElement("p");
+    const breadcrumbseparator = document.createElement("p");
 
-    const folder = getFoldersInFolder(folderHash, rootFolders.allDocuments)[0];
+    breadcrumbItem.textContent = item;
+    breadcrumbseparator.textContent = ">";
 
-    if (folder) {
-        const breadcrumbItem = document.createElement("p");
-        breadcrumbItem.textContent = folder.name;
 
-        breadcrumbContainer.appendChild(breadcrumbItem);
-    }
+    fragment.appendChild(breadcrumbItem);
+    fragment.appendChild(breadcrumbseparator)
+
+    breadcrumbContainer.appendChild(fragment);
+
+    updateTable(folderHash, containerTable,  item)
+
 };
 
 // Inicialización de eventos en el DOM
 document.addEventListener("DOMContentLoaded", () => {
+    const menuOptions = document.querySelectorAll(".option__item");
+    let keysValue = Object.keys(rootFolders)
+    
+    for (let elementNode = 0; elementNode < menuOptions.length; elementNode++) {
+        menuOptions[elementNode].setAttribute("data-hash", rootFolders[keysValue[elementNode]].hash);
+        // menuOptions[elementNode].setAttribute("data-hash", rootFolders[0]);
+    }
+
     const optionsItems = document.querySelectorAll(".option__item");
     const breadcrumbContainer = document.querySelector(".breadcrump");
     const tableContent = document.querySelector(".content");
 
     // Seleccionar el primer elemento por defecto
     optionsItems[0].classList.add("element__selected");
-    updateTable(rootFolders.allDocuments.hash, tableContent);
+    updateTable(rootFolders["All Documents"].hash, tableContent, "All Documents");
 
     // Añadir eventos a las opciones
     optionsItems.forEach((option) => {
-        option.addEventListener("click", () => {
-            console.log("Hola");
+        option.addEventListener("click", (element) => {
             optionsItems.forEach((item) =>
                 item.classList.remove("element__selected")
             );
             option.classList.add("element__selected");
 
             const folderHash = option.getAttribute("data-hash");
-            updateBreadcrumbs(folderHash, breadcrumbContainer);
+            updateBreadcrumbs(folderHash, breadcrumbContainer, element.target.textContent, tableContent);
             updateTable(folderHash, tableContent);
         });
     });
