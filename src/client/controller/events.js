@@ -26,31 +26,31 @@ const videosFolder = new Folder("Videos");
 const archivesFolder = new Folder("Archives");
 
 rootFolders.Folders.addItem(documentsFolder);
-rootFolders.Folders.addItem(imagesFolder);
+rootFolders.Files.addItem(imagesFolder);
 rootFolders.Folders.addItem(videosFolder);
 rootFolders.Folders.addItem(archivesFolder);
 
 // Agregar documentos a las carpetas
 documentsFolder.addItem(
-    new Document("resume.pdf", 3.4, "rw-r--r--", new Date(), "active", "user")
+    new Document("resume.pdf", 3.4, "rw-r--r--", "28 - Sep - 2018", "active", "user")
 );
 documentsFolder.addItem(
-    new Document("project.docx", 2.1, "rw-r--r--", new Date(), "active", "user")
+    new Document("project.docx", 2.1, "rw-r--r--",  "28 - Sep - 2018", "active", "user")
 );
 
-imagesFolder.addItem(
-    new Document("photo1.jpg", 5.2, "r--r--r--", new Date(), "archived", "user")
+rootFolders.Files.addItem(
+    new Document("photo1.jpg", 5.2, "r--r--r--",  "28 - Sep - 2018", "archived", "user")
 );
 imagesFolder.addItem(
-    new Document("photo2.png", 3.7, "r--r--r--", new Date(), "archived", "user")
+    new Document("photo2.png", 3.7, "r--r--r--",  "28 - Sep - 2018", "archived", "user")
 );
 
 videosFolder.addItem(
-    new Document("video1.mp4", 15.0, "r--r--r--", new Date(), "active", "user")
+    new Document("video1.mp4", 15.0, "r--r--r--",  "28 - Sep - 2018", "active", "user")
 );
 
 archivesFolder.addItem(
-    new Document("old.zip", 8.4, "rw-r--r--", new Date(), "archived", "user")
+    new Document("old.zip", 8.4, "rw-r--r--",  "28 - Sep - 2018", "archived", "user")
 );
 archivesFolder.addItem(
     new Document(
@@ -65,13 +65,10 @@ archivesFolder.addItem(
 
 // Función para actualizar la tabla en el DOM
 const updateTable = (folderHash, elementNode, item) => {
-  
-        console.log( rootFolders[`${ item }`])
-    const folder = getFoldersInFolder(folderHash, rootFolders[`${ item }`])[0];
-    console.log(folder + " imprimiendo el valor de folder") 
+    
+    let contentFolder = getContentsByFolderHash(folderHash, rootFolders[`${ item }`]);
 
-
-    if (!folder) {
+    if (!contentFolder) {
         elementNode.innerHTML = `
             <div class="advice__content">
                 <img src="resources/Logos/FileNotFound.webp" width="200px">
@@ -90,22 +87,23 @@ const updateTable = (folderHash, elementNode, item) => {
                 <th class="document__info">Last Modification</th>
                 <th class="document__status">State</th>
             </tr>`;
-
-    for (let item of getContentsByFolderHash(
+    
+    for (let element of getContentsByFolderHash(
         folderHash,
-        rootFolders["All Documents"]
+        rootFolders[`${ item }`]
     )) {
+        console.log(element)
         tableContent += `
             <tr class="table__head">
-                <td class="name__head">${item.name}</td>
-                <td class="document__weight">${item.weight || "N/A"} MB</td>
+                <td class="name__head">${element.name }</td>
+                <td class="document__weight">${(element.weight)? element.weight + " MB": " " }</td>
                 <td class="document__permission">${
-                    item.permission || "N/A"
+                    element.permission || " "
                 }</td>
                 <td class="document__info">${
-                    item.lastModification || "N/A"
+                    element.lastModification || " "
                 }</td>
-                <td class="document__status">${item.state || "N/A"}</td>
+                <td class="document__status">${ element.state || " "}</td>
             </tr>`;
     }
 
@@ -137,20 +135,21 @@ const updateBreadcrumbs = (folderHash, breadcrumbContainer, item, containerTable
 
 // Inicialización de eventos en el DOM
 document.addEventListener("DOMContentLoaded", () => {
-    const menuOptions = document.querySelectorAll(".option__item");
-    let keysValue = Object.keys(rootFolders)
     
-    for (let elementNode = 0; elementNode < menuOptions.length; elementNode++) {
-        menuOptions[elementNode].setAttribute("data-hash", rootFolders[keysValue[elementNode]].hash);
-        // menuOptions[elementNode].setAttribute("data-hash", rootFolders[0]);
-    }
-
     const optionsItems = document.querySelectorAll(".option__item");
     const breadcrumbContainer = document.querySelector(".breadcrump");
     const tableContent = document.querySelector(".content");
+    let keysValue = Object.keys(rootFolders)
+    
+    for (let elementNode = 0; elementNode < optionsItems.length; elementNode++) {
+        optionsItems[elementNode].setAttribute("data-hash", rootFolders[keysValue[elementNode]].hash);
+        // menuOptions[elementNode].setAttribute("data-hash", rootFolders[0]);
+    }
+
 
     // Seleccionar el primer elemento por defecto
     optionsItems[0].classList.add("element__selected");
+    console.log(rootFolders["All Documents"].getContents());
     updateTable(rootFolders["All Documents"].hash, tableContent, "All Documents");
 
     // Añadir eventos a las opciones
@@ -159,11 +158,11 @@ document.addEventListener("DOMContentLoaded", () => {
             optionsItems.forEach((item) =>
                 item.classList.remove("element__selected")
             );
-            option.classList.add("element__selected");
+            element.target.classList.add("element__selected");
 
-            const folderHash = option.getAttribute("data-hash");
+            const folderHash = element.target.getAttribute("data-hash");
             updateBreadcrumbs(folderHash, breadcrumbContainer, element.target.textContent, tableContent);
-            updateTable(folderHash, tableContent);
+            updateTable(folderHash, tableContent, element.target.textContent);
         });
     });
 });
