@@ -1,5 +1,4 @@
-## Este proyecto esta en desarrollo
+## Project Development Status**  
 
-El proyecto por el momento esta en fase de desarrollo.
-
+The project is currently in the development phase, where its fundamental components are being constructed and refined to ensure alignment with the established objectives.
 

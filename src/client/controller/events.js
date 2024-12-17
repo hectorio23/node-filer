@@ -1,5 +1,9 @@
 "use strict";
 
+fetch("../server/example.js")
+.then(msg => msg.text())
+.then(message => console.log(message))
+
 // Importar las clases y funciones
 import { Document } from "./documents.js";
 import { Folder } from "./folders.js";
@@ -67,8 +71,9 @@ archivesFolder.addItem(
 const updateTable = (folderHash, elementNode, item) => {
     
     let contentFolder = getContentsByFolderHash(folderHash, rootFolders[`${ item }`]);
-
-    if (!contentFolder) {
+    elementNode.innerHTML = "";
+    
+    if (!contentFolder.length) {
         elementNode.innerHTML = `
             <div class="advice__content">
                 <img src="resources/Logos/FileNotFound.webp" width="200px">
@@ -92,7 +97,6 @@ const updateTable = (folderHash, elementNode, item) => {
         folderHash,
         rootFolders[`${ item }`]
     )) {
-        console.log(element)
         tableContent += `
             <tr class="table__head">
                 <td class="name__head">${element.name }</td>
@@ -149,7 +153,6 @@ document.addEventListener("DOMContentLoaded", () => {
 
     // Seleccionar el primer elemento por defecto
     optionsItems[0].classList.add("element__selected");
-    console.log(rootFolders["All Documents"].getContents());
     updateTable(rootFolders["All Documents"].hash, tableContent, "All Documents");
 
     // Añadir eventos a las opciones
