@@ -2,26 +2,36 @@ class DataExplorer {
     constructor(iterable) {
         // Inicializar la clase con un iterable
         this.data = iterable;
+        this.elementArray = []
     }
 
-    getAllData(array = this.data) {
+    getAllData(array = this.data) { 
+
         for (let element of array) {
             if (Array.isArray(element)) {
                 // Verificar si es un directorio
                 if (element[1] === "/") {
-                    console.log(`Directory: ${element[2]}`);
+                    this.elementArray.push(element);
                     // Llamar recursivamente con el contenido del directorio
                     this.getAllData(element.slice(3));
                 } else if (element[1] === "file") {
                     // Verificar si es un archivo
-                    console.log(`File: ${element[2]}`);
+                    this.elementArray.push(element);
                 } else {
                     // Si no es un directorio ni archivo, pero es un array, explorarlo
                     this.getAllData(element);
                 }
             }
         }
+    
+        return this.elementArray;
     }
+
+    removeTrash() {
+        this.elementArray = [];
+    }
+
+
 }
 
 // // Ejemplo de uso:

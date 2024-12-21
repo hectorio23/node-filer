@@ -6,26 +6,26 @@ import { DataExplorer } from "./dataExplorer.js"; // Asegúrate de que el archiv
 // Crear las carpetas principales usando DataExplorer
 const rootFolders = {
     "All Documents": new DataExplorer([
-        ["29384665555555555", "/", "Desktop",
+        ["29384665555555555", "/", "Desktop/",
             [      
                 ["29384r857857t5589", "file", "main.js", "19/11/24", "noshared", "664"],
                 ["29384r857857t5589", "file", "functions.js", "19/11/24", "noshared", "654"],
                 ["29384r857857t5589", "file", "events.js", "19/11/24", "noshared", "400"],
 
-                ["845586u867877788", "/", "model", 
+                ["845586u867877788", "/", "model/", 
                     ["59866666667777784", "file", "query.js", "19/11/24", "noshared", "664"],
                     ["87444455476565473", "file", "fetchData.js", "19/11/24", "noshared", "654"],
                     ["93745756757675676", "file", "dataHandler.js", "19/11/24", "noshared", "400"]
                 ]
             ]
         ],
-        ["29384665555555555", "/", "Pictures",
+        ["29384665555555555", "/", "Pictures/",
             [      
                 ["29384r857857t5589", "file", "baskground.png", "19/11/24", "noshared", "664"],
                 ["29384r857857t5589", "file", "portrait.jpg", "19/11/24", "noshared", "654"],
                 ["29384r857857t5589", "file", "birthday.mp4", "19/11/24", "noshared", "400"],
 
-                ["845586u867877788", "/", "Wallpapers", 
+                ["845586u867877788", "/", "Wallpapers/", 
                     ["59866666667777784", "file", "dynamicIsland.png", "19/11/24", "noshared", "664"],
                     ["87444455476565473", "file", "user.ico", "19/11/24", "noshared", "654"],
                     ["93745756757675676", "file", "hackerProfile.png", "19/11/24", "noshared", "400"]
@@ -42,6 +42,12 @@ const rootFolders = {
 // Función para actualizar la tabla en el DOM
 const updateTable = (item, elementNode) => {
     let contentFolder = rootFolders[item].data; // Obtener los datos de la carpeta correspondiente
+
+    if (item === "All Documents") {
+        contentFolder = rootFolders[item].getAllData();
+        rootFolders[item].removeTrash();
+    }
+
     elementNode.innerHTML = ""; // Limpiar el contenido actual
     
     if (!contentFolder.length) {
@@ -66,7 +72,7 @@ const updateTable = (item, elementNode) => {
     
     // Recorriendo los contenidos usando el método de DataExplorer
     contentFolder.forEach(element => {
-        console.log(element);2
+        console.log(element);
         if (Array.isArray(element)) {
             // Si es un directorio o archivo, lo mostramos
             if (element[1] === "/") {
