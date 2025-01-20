@@ -1,7 +1,7 @@
 @media only screen and (orientation:landscape) {
    
     body {
-        background-color: #48e;
+        background-color: #1A202C;
     }
 
     * {
@@ -16,6 +16,7 @@
     }
 
     .header__nav {
+        background-color: #1A202C;
         display: grid;
         grid-template-columns: repeat(12, 1fr);
         grid-template-rows: 1fr;
@@ -99,10 +100,11 @@
 
     .main__content {
         box-sizing: border-box;
-        background-color: #48e;
+        background-color: #F4F4F9;
         width: 99vw;
         height: calc(99vh - 50px);
         margin: auto;
+        border-radius: 1rem 1rem .5rem .5rem;
     }
 
     .aside__content {
@@ -112,9 +114,8 @@
         box-sizing: border-box;
         width: 15%;
         height: calc(99vh - 50px);
-        background-color: #CCC;
         border-radius: 1rem 0 0 .5rem;
-        background: rgba(255, 255, 255, .5);
+        background-color: rgba(46, 59, 78, 0.8);
         -webkit-backdrop-filter: blur(5px);
         backdrop-filter: blur(5px);
         border: 1.5px solid rgba(209, 213, 219, 0.3);
@@ -139,10 +140,10 @@
         width: 100%;
         height: 30%;
         list-style: none;
-        outline: 1px solid #CCC;
     }
 
     .option__item {
+        color:#FFFFFF;
         margin: auto;
         padding: 5px 10px;
         margin-bottom: 5px;
@@ -152,7 +153,7 @@
 
     .option__item:hover {
         cursor: pointer;
-        background-color: #EEE;
+        background-color:  #8B8B95;
         transition: background-color 0.3s ease-out; 
     }
 
@@ -161,7 +162,7 @@
         width: calc(100% - 15.2%);
         height: 100%;
         margin-left: 15.2%;
-        background-color: #EEE;
+        background-color: #F4F4F9;
         border-radius: 0 1rem .5rem 0;
         padding: 10px;
     }
@@ -205,6 +206,7 @@
         grid-column: 5 / 7;
     }
 
+    
     .breadcrump__menu {
         display: grid;
         box-sizing: border-box;
@@ -212,42 +214,53 @@
         grid-template-columns: repeat(12, 1fr);
         width: 98%;
         height: 50px;
-        border: 2px dashed #CCC;
+        border: 1px solid rgba(0, 0, 0, 0.1); /* Borde sutil y elegante */
         margin: auto;
         margin-top: 20px;
+        border-radius: 8px; /* Bordes ligeramente redondeados */
+        background-color: #F8F9FA; /* Fondo limpio y profesional */
         user-select: none;
     }
 
     .breadcrump {
         display: flex;
-        justify-content: left;
+        justify-content: flex-start; /* Alineación a la izquierda */
+        align-items: center; /* Centrado vertical */
         grid-column: 1 / 10;
+        gap: 10px; /* Espaciado consistente entre elementos */
+        padding: 0 15px; /* Espaciado interno */
     }
 
     .breadcrump > p {
         align-self: center;
-        padding: 2px 6px;
-        margin: 0 5px;
-        border-radius: .5rem;
-        transition: background-color .1s ease-in;
+        padding: 6px 12px; /* Tamaño de espaciado moderado */
+        margin: 0; /* Sin márgenes externos */
+        border-radius: 5px; /* Bordes suaves */
+        font-size: 14px; /* Tamaño profesional del texto */
+        font-weight: 500; /* Peso del texto seminegrita */
+        color: #495057; /* Gris oscuro moderno */
+        background-color: transparent; /* Fondo por defecto transparente */
+        transition: background-color 0.2s ease, color 0.2s ease;
     }
 
-    
+    .breadcrump > p:hover {
+        background-color: rgba(0, 123, 255, 0.1); /* Azul claro sutil en hover */
+        color: #007BFF; /* Azul profesional en hover */
+        cursor: pointer;
+    }
+
     .breadcrump > p:nth-child(even) {
-        user-select: none;
-        padding:0;
-    }
-
-    .breadcrump > p:nth-child(odd):hover {
-        background-color: #DDD;
-        cursor: pointer; 
+        padding: 0; /* Elementos no clickeables no necesitan padding */
+        color: #6C757D; /* Gris más claro para separadores */
+        font-weight: normal;
+        cursor: default; /* Sin efecto de clic */
     }
 
     .create__option {
         display: block;
         position: relative;
         color: #FFF;
-        background-color: #0d6efd;
+        background-color: #4CAF50 ;
         grid-column: 11 / 13;
         width: 12rem;
         height: 2.5rem;
@@ -261,6 +274,7 @@
     .create__option:hover {
         cursor: pointer;
         width: 14rem;
+        background-color: #388E3C;
 
     }
 
@@ -295,10 +309,11 @@
 
     .title__table {
         position: fixed;
-        background: #EEE;
-        border-bottom: 1px solid #000;
+        background: #4A5568;
+        color: #F4F4F9;
         width: 81%;
-        margin-bottom:none; 
+        margin-bottom:none;
+        border-radius: .3rem;
     }
 
     .table__head:not(.title__table) {
@@ -332,7 +347,7 @@
 
     /* JAVASCRIPT CLASSESS */
     .element__selected {
-        background-color: #FFF ;
+        background-color:  #414651;
     }
 
     .advice__content {
@@ -349,4 +364,15 @@
         width: 400px;
         height: 400px;
     }
+    
+    .menu__items {
+        color: #333333 ;
+        background-color: #E0E0E0;
+
+    }
+
+    .menu__items:hover {
+        cursor: pointer;
+    }
+
 }
